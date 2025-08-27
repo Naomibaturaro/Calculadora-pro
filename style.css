@@ -1,0 +1,100 @@
+body {
+font-family: Arial, sans-serif;
+background: linear-gradient(to right, #74ebd5, #ACB6E5);
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+margin: 0;
+}
+
+.app {
+background-color: #fff;
+padding: 30px;
+border-radius: 20px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+width: 350px;
+text-align: center;
+}
+
+h1 {
+margin-bottom: 20px;
+}
+
+.pantalla input {
+width: 80%;
+padding: 12px;
+margin: 5px 0;
+border-radius: 8px;
+border: 1px solid #ccc;
+text-align: center;
+font-size: 16px;
+}
+
+#resultado {
+font-size: 20px;
+font-weight: bold;
+margin-top: 15px;
+color: #333;
+}
+
+/* Botones */
+.botones {
+margin-top: 20px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+button.operacion {
+flex: 1 1 40%;
+margin: 5px;
+padding: 12px;
+border: none;
+border-radius: 10px;
+background-color: #74ebd5;
+font-weight: bold;
+font-size: 16px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+transition: 0.3s;
+}
+
+button.operacion:hover {
+background-color: #ACB6E5;
+color: white;
+}
+
+button.limpiar {
+background-color: #ff6b6b;
+}
+
+button.limpiar:hover {
+background-color: #ff3b3b;
+color: white;
+}
+
+/* Historial */
+.historial {
+margin-top: 20px;
+text-align: left;
+}
+
+.historial h2 {
+font-size: 18px;
+margin-bottom: 5px;
+}
+
+.historial ul {
+list-style-type: none;
+padding-left: 0;
+max-height: 150px;
+overflow-y: auto;
+border: 1px solid #ccc;
+border-radius: 8px;
+padding: 10px;
+background-color: #f9f9f9;
+}

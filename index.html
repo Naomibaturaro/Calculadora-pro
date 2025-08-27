@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Pro+Historial</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="app">
+<h1>Calculadora Pro</h1>
+
+<div class="pantalla">
+<input id="num1" type="number" placeholder="Número 1">
+<input id="num2" type="number" placeholder="Número 2">
+<p id="resultado">Resultado: </p>
+</div>
+
+<div class="botones">
+<button class="operacion" onclick="sumar()"><i class="fas fa-plus"></i> Sumar</button>
+<button class="operacion" onclick="restar()"><i class="fas fa-minus"></i> Restar</button>
+<button class="operacion" onclick="multiplicar()"><i class="fas fa-times"></i> Multiplicar</button>
+<button class="operacion" onclick="dividir()"><i class="fas fa-divide"></i> Dividir</button>
+<button class="operacion" onclick="potencia()"><i class="fas fa-arrow-up"></i> Potencia</button>
+<button class="operacion" onclick="porcentaje()"><i class="fas fa-percent"></i> Porcentaje</button>
+<button class="operacion" onclick="raiz()"><i class="fas fa-square-root-alt"></i> Raíz</button>
+<button class="operacion limpiar" onclick="limpiar()"><i class="fas fa-broom"></i> Limpiar</button>
+</div>
+
+<div class="historial">
+<h2>Historial</h2>
+<ul id="historial"></ul>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
