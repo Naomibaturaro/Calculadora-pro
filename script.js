@@ -1,96 +1,119 @@
-// Historial de operaciones
+// Esperar a que cargue la página
+window.onload = function() {
+    // Simular tiempo de carga (2 segundos)
+    setTimeout(function() {
+        // Ocultar loader
+        document.querySelector('.loader').style.opacity = '0';
+        setTimeout(function() {
+            document.querySelector('.loader').style.display = 'none';
+        }, 500);
+
+        // Mostrar app con efecto mágico
+        document.querySelector('.app').style.opacity = '1';
+    }, 2000);
+};
+
+// Variables para la calculadora
+let operacionActual = '';
+let resultadoTemporal = 0;
 let historialArr = [];
 
-function validar(num1, num2 = true) {
-if (num2 !== false && (isNaN(num1) || isNaN(Number(num2)))) return false;
-if (num2 === false && isNaN(num1)) return false;
-return true;
-}
+// Elementos HTML
+const displayOperacion = document.getElementById('operacion');
+const displayResultadoTemporal = document.getElementById('resultado-temporal');
+const historialUl = document.getElementById('historial');
 
-function mostrarError(mensaje = "Por favor, ingresa números válidos") {
-document.getElementById("resultado").innerText = mensaje;
-}
+// EventListeners para los botones
+document.querySelectorAll('.teclado button').forEach(button => {
+    button.addEventListener('click', () => {
+        const valor = button.innerText;
 
-// Función para actualizar historial
-function agregarHistorial(texto) {
-historialArr.unshift(texto);
-const ul = document.getElementById("historial");
-ul.innerHTML = "";
-historialArr.forEach(item => {
-const li = document.createElement("li");
-li.innerText = item;
-ul.appendChild(li);
+        if (button.classList.contains('numero')) {
+            agregarNumero(valor);
+        } else if (button.classList.contains('operador')) {
+            agregarOperador(valor);
+        } else if (button.classList.contains('punto')) {
+            agregarPunto();
+        } else if (button.classList.contains('limpiar')) {
+            limpiar();
+        } else if (button.classList.contains('igual')) {
+            calcular();
+        }
+    });
 });
+
+// Funciones de la calculadora
+function agregarNumero(numero) {
+    operacionActual += numero;
+    actualizarDisplay();
+    calcularTemporal();
 }
 
-// Limpiar inputs y resultado
+function agregarOperador(operador) {
+    // Evitar operadores al principio o repetidos
+    if (operacionActual === '' || isNaN(operacionActual.slice(-1))) {
+        return;
+    }
+    operacionActual += ' ' + operador + ' ';
+    actualizarDisplay();
+}
+
+function agregarPunto() {
+    // Evitar puntos repetidos en un mismo número
+    const ultimoNumero = operacionActual.split(' ').pop();
+    if (ultimoNumero.includes('.')) {
+        return;
+    }
+    if (operacionActual === '') {
+        operacionActual = '0.';
+    } else {
+        operacionActual += '.';
+    }
+    actualizarDisplay();
+}
+
 function limpiar() {
-document.getElementById("num1").value = "";
-document.getElementById("num2").value = "";
-document.getElementById("resultado").innerText = "Resultado: ";
+    operacionActual = '';
+    resultadoTemporal = 0;
+    actualizarDisplay();
+    displayResultadoTemporal.innerText = 'Resultadote: 0';
 }
 
-// Operaciones
-function sumar() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-let res = (n1 + n2).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1} + ${n2} = ${res}`);
+function calcularTemporal() {
+    try {
+        // Evaluar la expresión (con precaución)
+        // Reemplazar operadores para eval()
+        const expresion = operacionActual.replace(/x/g, '*').replace(/÷/g, '/');
+        resultadoTemporal = eval(expresion);
+        displayResultadoTemporal.innerText = 'Resultadote: ' + resultadoTemporal.toFixed(2);
+    } catch (error) {
+        // Ignorar errores durante el cálculo temporal
+    }
 }
 
-function restar() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-let res = (n1 - n2).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1} - ${n2} = ${res}`);
+function calcular() {
+    try {
+        const expresion = operacionActual.replace(/x/g, '*').replace(/÷/g, '/');
+        const resultado = eval(expresion);
+        operacionActual = resultado.toFixed(2);
+        actualizarDisplay();
+        displayResultadoTemporal.innerText = '';
+        agregarHistorial(`${operacionActual} = ${resultado.toFixed(2)}`);
+    } catch (error) {
+        displayOperacion.value = 'Error';
+    }
 }
 
-function multiplicar() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-let res = (n1 * n2).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1} * ${n2} = ${res}`);
+function actualizarDisplay() {
+    displayOperacion.value = operacionActual;
 }
 
-function dividir() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-if (n2 === 0) return mostrarError("No se puede dividir por 0");
-let res = (n1 / n2).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1} / ${n2} = ${res}`);
-}
-
-function potencia() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-let res = (n1 ** n2).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1} ^ ${n2} = ${res}`);
-}
-
-function porcentaje() {
-let n1 = Number(document.getElementById("num1").value);
-let n2 = Number(document.getElementById("num2").value);
-if (!validar(n1, n2)) return mostrarError();
-let res = ((n1 * n2)/100).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`${n1}% de ${n2} = ${res}`);
-}
-
-function raiz() {
-let n1 = Number(document.getElementById("num1").value);
-if (!validar(n1, false)) return mostrarError();
-if (n1 < 0) return mostrarError("No se puede calcular raíz de número negativo");
-let res = Math.sqrt(n1).toFixed(2);
-document.getElementById("resultado").innerText = "Resultado: " + res;
-agregarHistorial(`√${n1} = ${res}`);
+function agregarHistorial(texto) {
+    historialArr.unshift(texto);
+    historialUl.innerHTML = "";
+    historialArr.forEach(item => {
+        const li = document.createElement("li");
+        li.innerText = item;
+        historialUl.appendChild(li);
+    });
 }
