@@ -1,38 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Calculadora Pro+Historial</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Calculadora Pro+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div class="app">
-<h1>Calculadora Pro</h1>
+    <div class="loader">
+        <div class="loader-content">
+            <div class="rulo"></div>
+            <p>Cargando magia...</p>
+        </div>
+    </div>
 
-<div class="pantalla">
-<input id="num1" type="number" placeholder="Número 1">
-<input id="num2" type="number" placeholder="Número 2">
-<p id="resultado">Resultado: </p>
-</div>
+    <div class="app">
+        <h1>Calculadora Pro+</h1>
 
-<div class="botones">
-<button class="operacion" onclick="sumar()"><i class="fas fa-plus"></i> Sumar</button>
-<button class="operacion" onclick="restar()"><i class="fas fa-minus"></i> Restar</button>
-<button class="operacion" onclick="multiplicar()"><i class="fas fa-times"></i> Multiplicar</button>
-<button class="operacion" onclick="dividir()"><i class="fas fa-divide"></i> Dividir</button>
-<button class="operacion" onclick="potencia()"><i class="fas fa-arrow-up"></i> Potencia</button>
-<button class="operacion" onclick="porcentaje()"><i class="fas fa-percent"></i> Porcentaje</button>
-<button class="operacion" onclick="raiz()"><i class="fas fa-square-root-alt"></i> Raíz</button>
-<button class="operacion limpiar" onclick="limpiar()"><i class="fas fa-broom"></i> Limpiar</button>
-</div>
+        <div class="calculadora-content">
+            <div class="mano-calculadora">
+                <div class="mano">
+                    <i class="fas fa-hand-holding fa-5x"></i>
+                </div>
+                <div class="calculadora">
+                    <div class="display">
+                        <input type="text" id="operacion" readonly>
+                        <p id="resultado-temporal">Resultadote: 0</p>
+                    </div>
+                    <div class="teclado">
+                        <button class="numero">7</button>
+                        <button class="numero">8</button>
+                        <button class="numero">9</button>
+                        <button class="operador">+</button>
+                        <button class="numero">4</button>
+                        <button class="numero">5</button>
+                        <button class="numero">6</button>
+                        <button class="operador">-</button>
+                        <button class="numero">1</button>
+                        <button class="numero">2</button>
+                        <button class="numero">3</button>
+                        <button class="operador">*</button>
+                        <button class="numero">0</button>
+                        <button class="punto">.</button>
+                        <button class="limpiar">C</button>
+                        <button class="operador">/</button>
+                        <button class="igual">=</button>
+                    </div>
+                </div>
+            </div>
 
-<div class="historial">
-<h2>Historial</h2>
-<ul id="historial"></ul>
-</div>
-</div>
+            <div class="historial">
+                <h2>Historial</h2>
+                <ul id="historial"></ul>
+            </div>
+        </div>
+    </div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
