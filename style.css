@@ -1,191 +1,137 @@
-/* General */
+:root {
+    --gradiente: linear-gradient(135deg, #a0d8c0 0%, #9fcae5 100%);
+    --vidrio: rgba(255, 255, 255, 0.15);
+    --borde: rgba(255, 255, 255, 0.3);
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #a0d8c0, #9fcae5); /* Degradado verde/azul de la imagen */
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--gradiente);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    overflow: hidden; /* Evitar barras de desplazamiento durante la carga */
+    overflow-x: hidden;
 }
 
-/* Loader */
+/* --- LOADER 100% CSS --- */
 .loader {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    inset: 0;
+    background: #fff;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    transition: opacity 0.5s ease-out; /* Transición para que se esfume */
+    z-index: 999;
+    transition: opacity 0.8s ease;
 }
 
-.loader-content {
-    text-align: center;
-}
-
-.rulo {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #a0d8c0;
-    border-top-color: #9fcae5;
+.rulo-css {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    animation: spin 1s linear infinite; /* Animación de rulo girando */
+    background: conic-gradient(#a0d8c0, #9fcae5, #ffb7b7, #a0d8c0);
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+    animation: girar 1.5s infinite linear;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* --- APP LAYOUT --- */
+.app-container {
+    width: 90%;
+    max-width: 380px;
+    transition: all 1s ease;
 }
 
-/* App (Calculadora e Historial) */
-.app {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    width: 450px; /* Un poco más ancha para acomodar la mano */
-    text-align: center;
-    opacity: 0; /* Ocultar inicialmente para el efecto "mágico" */
-    transition: opacity 0.5s ease-in 0.5s; /* Transición para que aparezca */
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-/* Contenido de la Calculadora e Historial */
-.calculadora-content {
-    display: flex;
-    flex-wrap: wrap; /* Permitir que los elementos se acomoden en dispositivos más pequeños */
-    gap: 20px;
-}
-
-/* Mano y Calculadora */
-.mano-calculadora {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.visual-wrapper {
     position: relative;
-    animation: float 3s ease-in-out infinite; /* Animación de levitación */
+    padding-top: 40px;
+}
+
+/* Soporte "Mano" Abstracto */
+.soporte-aura {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.4);
+    filter: blur(20px);
+    border-radius: 50%;
+    animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -15px); }
 }
 
-.mano {
-    color: #ccc; /* Color de la mano */
+/* --- CALCULADORA --- */
+.calculadora-glass {
+    background: var(--vidrio);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--borde);
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
 }
 
-.calculadora {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #fff;
-    width: 250px;
-}
-
-/* Diseño de Calculadora tipo Celular */
 .display {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f0f0f0;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 20px;
+    border-radius: 15px;
     text-align: right;
+    margin-bottom: 20px;
 }
 
-#operacion {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 24px;
-    color: #333;
-    outline: none;
-}
-
-#resultado-temporal {
-    font-size: 16px;
-    color: #777;
-    margin-top: 5px;
-}
+.operacion { font-size: 1rem; color: #555; min-height: 1.2rem; }
+.res-preview { font-size: 2.2rem; font-weight: bold; color: #222; }
 
 .teclado {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
+    gap: 10px;
 }
 
 button {
     border: none;
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 18px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 18px 0;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: 0.2s;
+    color: #333;
 }
 
-.numero {
-    background-color: #eee;
-}
+button:active { transform: scale(0.92); background: #fff; }
 
-.numero:hover {
-    background-color: #ddd;
-}
-
-.operador {
-    background-color: #a0d8c0; /* Verde de la imagen */
-    color: #fff;
-}
-
-.operador:hover {
-    background-color: #90c8b0;
-}
-
-.limpiar {
-    background-color: #ff6b6b; /* Rojo de la imagen */
-    color: #fff;
-}
-
-.limpiar:hover {
-    background-color: #ee5b5b;
-}
-
-.igual {
-    background-color: #4CAF50; /* Verde oliva */
-    color: #fff;
-    grid-column: span 2; /* Ocupar dos columnas */
-}
-
-.igual:hover {
-    background-color: #45a049;
-}
+.btn-op { background: rgba(160, 216, 192, 0.5); }
+.btn-igual { background: #9fcae5; grid-row: span 2; display: flex; align-items: center; justify-content: center; }
+.btn-cero { grid-column: span 2; }
+.btn-clear { background: rgba(255, 183, 183, 0.5); }
 
 /* Historial */
-.historial {
-    flex: 1; /* Ocupar el espacio restante */
-    text-align: left;
-}
-
-.historial h2 {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.historial ul {
-    list-style-type: none;
-    padding-left: 0;
-    max-height: 200px;
+.historial-container {
+    margin-top: 25px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 15px;
+    max-height: 120px;
     overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #f9f9f9;
+    font-size: 0.9rem;
+}
+
+/* Mobile Fixes */
+@media (max-width: 400px) {
+    .calculadora-glass { padding: 15px; }
+    button { padding: 14px 0; font-size: 1.1rem; }
 }
